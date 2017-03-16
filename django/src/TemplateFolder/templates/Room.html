@@ -1,0 +1,72 @@
+{% extends "RoomNavbar.html" %}
+            
+{% block content %}
+
+        
+
+            
+
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["orgchart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Name');
+        data.addColumn('string', 'Manager');
+        data.addColumn('string', 'ToolTip');
+      {% for entry in room %}                   
+     
+            data.addRows([ [{v:'{{ entry.containerhrname}}', f:'<div style="color:red; font-style:italic"><h4>Sensors</h4><div>'}, '', '{{ entry.containerhrname}}'],  ]);
+           
+            {% for sensorvalues in sensorhrnamelist %}
+                  var i = true;
+                  var save = "empty";
+                  {% for value in sensorvalues %}
+                        if (i) {
+            data.addRows([    [{v:'{{ value }}',f:'<div>{{ value }}</div>'}, '{{ entry.containerhrname}}', '{{ entry.containerhrname}}'], ]);
+                              save = '{{value}}';
+                              i = false;  
+                        }
+                        else{
+            data.addRows([    [{v:'{{ value }}',f:'<div> {{ value }} </div>'},  (save), '{{ save }}'], ]);
+                        }
+                        
+                  {% endfor %}
+            {% endfor %}
+      {% endfor %}
+        
+
+      
+
+        var chart = new google.visualization.OrgChart(document.getElementById('chart_div1'));
+        chart.draw(data, {allowHtml:true});
+      }
+    </script>
+    
+        <div class="row">
+              <div class="col-sm-12">
+                      <div id="chart_div1""></div> <br><br>
+              </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

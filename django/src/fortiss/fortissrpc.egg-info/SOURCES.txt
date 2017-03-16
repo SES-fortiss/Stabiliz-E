@@ -1,0 +1,7 @@
+setup.py
+fortissrpc.egg-info/PKG-INFO
+fortissrpc.egg-info/SOURCES.txt
+fortissrpc.egg-info/dependency_links.txt
+fortissrpc.egg-info/top_level.txt
+rpc/__init__.py
+rpc/client.py

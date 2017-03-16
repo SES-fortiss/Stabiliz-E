@@ -1,0 +1,16 @@
+Metadata-Version: 1.1
+Name: fortissrpc
+Version: 0.1
+Summary: A simple RPC library for fortiss remote calls
+Home-page: http://www.fortiss.org
+Author: Sebastian Wilzbach.me
+Author-email: sebi@wilzbach.me
+License: BSD License
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python

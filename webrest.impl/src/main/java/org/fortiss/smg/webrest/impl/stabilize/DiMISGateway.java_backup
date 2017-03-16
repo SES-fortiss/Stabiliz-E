@@ -1,0 +1,435 @@
+package org.fortiss.smg.webrest.impl.stabilize;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeoutException;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+
+<<<<<<< HEAD
+import org.codehaus.jettison.json.JSONObject;
+
+=======
+>>>>>>> refs/remotes/origin/master
+import org.fortiss.smg.analyzer.api.AnalyzerInterface;
+import org.fortiss.smg.containermanager.api.devices.DeviceId;
+import org.fortiss.smg.stabilize.api.StabilizeInterface;
+import org.fortiss.smg.stabilize.impl.Pair;
+import org.fortiss.smg.webrest.impl.BundleFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Path("/stabilize")
+public class DiMISGateway {
+
+	enum GrainType {
+	SECONDLY,
+	HOURLY,
+	DAILY,
+	MONTHLY,
+	YEARLY;
+	}
+    
+	String grain_error = "{  \"status\": \"error\", "
+			+ "\"data\": null, "
+			+ "\"message\": \"invalid grain type\""
+			+ "}";
+	
+	public static AnalyzerInterface analyzer = BundleFactory.getAnalyzer();
+	public static StabilizeInterface stabilize = BundleFactory.getStabilize();
+	
+	private static Logger logger = LoggerFactory
+			.getLogger(DiMISGateway.class);
+
+	@GET
+	@Produces({ MediaType.TEXT_PLAIN })
+	@Path("/doSomething")
+	public String doSomething(@QueryParam("name") String s) {
+		return "works";
+	}
+	
+//	@GET
+//	@Produces({ MediaType.TEXT_PLAIN })
+//	@Path("/device/{id}/{from}/{to}")
+//	public String getValue(@PathParam("id") String id, @PathParam("from") String from, @PathParam("to") String to) {
+//		logger.debug("Deviceid " + id + " from: " + from + " to: " + to);
+//		String response = "";
+//
+//		SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmss");
+//		Date toD = null;
+//		Date fromD = null;
+//		try {
+//			toD = f.parse(to);
+//			fromD = f.parse(from);
+//		} catch (ParseException e1) {
+//			logger.error("Could not parse given time variables", e1);
+//			// TODO specify how an error response should look likes. json?
+//			return "Parsing error";
+//		}
+//		long toDate = toD.getTime();
+//		long fromDate = fromD.getTime();
+//		logger.debug("Timestamps: from: " + fromDate + " ToDate: " + toDate);
+//		String sql = "select * from DoubleEvents " + "where wrapperid = '" + id + "' and timestamp > '" + fromDate
+//				+ "' and timestamp <= '" + toDate + "';";
+//		logger.debug("SQL query: " + sql);
+//		InformationBrokerInterface infoBroker = BundleFactory.getInformationBroker();
+//		try {
+//			ResultSet resultSet = infoBroker.getSQLResultSet(sql);
+//			if (resultSet != null) {
+//				JSONObject json = ResultSetConverter.convertToJSON(resultSet);
+//				return json.toString();
+//			} else {
+//				return "ResultSet == null";
+//			}
+//		} catch (TimeoutException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return "Timeout error";
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return "error";
+//		}
+//	}
+//
+//
+//	@GET
+//	@Produces({ MediaType.TEXT_PLAIN })
+//	@Path("/device/timestamp/{id}/{from}/{to}")
+//	public String getValueTime(@PathParam("id") String id, @PathParam("from") long from, @PathParam("to") long to) {
+//		/* 
+//		 * Input parameters:
+//		 * id:161001121401-0001.DAPO_ENRG_l1_Volt
+//		 * from:1485253521931
+//		 * to: 1485257167102
+//		 * url:http://localhost:8091/api/stabilize/device/timestamp/161001121401-0001.DAPO_ENRG_l1_Volt/1485253521931/1485257167102
+//		 */
+//		DeviceId dev = new DeviceId(id, "dimis.wrapper");
+//		logger.debug("Deviceid " + id + " from: " + from + " to: " + to);
+//	
+//		InformationBrokerInterface infoBroker = BundleFactory.getInformationBroker();
+//		try {
+//			logger.debug("Calling getSQLResultSet(sql)");
+//			List<DoublePoint> resultSet = infoBroker.getDoubleValue(dev, from, to);
+//			if (resultSet.size() != 0) {
+//				logger.debug("resultset is not zero");
+//				return resultSet.toString();
+//			} else {
+//				return "ResultSet == null";
+//			}
+//		} catch (TimeoutException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return "Timeout error";
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return "error";
+//		}
+//	}
+//	
+//	@GET
+//	@Produces({ MediaType.TEXT_PLAIN })
+//	@Path("/dailymaxvolt/{id}/{from}/{to}")
+//	public String getDailyMaxVoltage(@PathParam("id") String id, @PathParam("from") long from, @PathParam("to") long to) {
+//		/* 
+//		 * Input parameters:
+//		 * id:161001121401-0001.DAPO_ENRG_l1_Volt
+//		 * from:1485253521931
+//		 * to: 1485257167102
+//		 * url:http://localhost:8091/api/stabilize/dailymaxvolt/161001121401-0001.DAPO_ENRG_l1_Volt/1485253521931/1485257167102
+//		 */
+//		DeviceId dev = new DeviceId(id, "dimis.wrapper");
+//		logger.debug("Deviceid " + id + " from: " + from + " to: " + to);
+//	
+////		InformationBrokerInterface infoBroker = BundleFactory.getInformationBroker();
+//		AnalyzerInterface analyzer = BundleFactory.getAnalyzer();
+//		try {
+//			logger.debug("Calling analyzer.getMax");
+////			List<DoublePoint> resultSet = infoBroker.getDoubleValue(dev, from, to);
+//			Double max_volt = analyzer.getMax(from, to, dev);
+//			Double min_volt = analyzer.getMin(from, to, dev);
+//			
+//			if ((max_volt > 0) && (min_volt > 0) ) {
+//				logger.debug("max_volt is not zero");
+//				return "Result from analyzer: \nMaximum Voltage: "+max_volt.toString() + "\n"
+//						+  "Minimum Voltage: "+min_volt.toString() + "\n" ;
+//			} else {
+//				return "Result from analyzer: null";
+//			}
+//		} catch (TimeoutException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return "Timeout error";
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return "error";
+//		}
+//	}
+//	
+//
+//	
+//	@GET
+//	@Produces({ MediaType.TEXT_PLAIN })
+//	@Path("/getAverage/{id}/{from}/{to}")
+//	public String getAverage(@PathParam("id") String id, @PathParam("from") long from, @PathParam("to") long to) {
+//		// TODO change id to type and device
+//		/* 
+//		 * Input parameters:
+//		 * id: 161001121401-0001.DAPO_ENRG_l1_Volt / 161001121401-0001.DAPO_ENRG_l1_Curr
+//		 * from:1485253521931
+//		 * to: 1485257167102
+//		 * url:http://localhost:8091/api/stabilize/getAverage/161001121401-0001.DAPO_ENRG_l1_Volt/1485253521931/1485257167102
+//		 */
+//		DeviceId dev = new DeviceId(id, "dummy.wrapper");
+//		logger.debug("Deviceid " + id + " from: " + from + " to: " + to);
+//	
+//		try {
+//			logger.debug("Calling analyzer.getMax");
+//			Double avg_val = analyzer.getArithmeticMean(from, to, dev);
+//			
+//			if (avg_val > 0) {
+//				logger.debug("Average value is not zero");
+//				return "Result from analyzer: \nAverage value: "+avg_val.toString() + "\n"
+//						+  "for the device: "+ dev.toString() + "\n" 
+//						+ "between: "+ from + "\n" 
+//						+ "to: "+ to + "\n" ;
+//			} else {
+//				return "Result from analyzer: null";
+//			}
+//		} catch (TimeoutException e) {
+//			
+//			
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return "Timeout error";
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return "error";
+//		}
+//	}
+	
+	@GET
+	@Produces({ MediaType.TEXT_PLAIN })
+	@Path("/latest")
+	public String getLatest() {
+		
+		HashMap<DeviceId, Double> values;
+		try {
+			values = stabilize.getLatest();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "error";
+<<<<<<< HEAD
+		}
+	}
+
+
+	@GET
+	@Produces({ MediaType.TEXT_PLAIN })
+	@Path("/device/timestamp/{id}/{from}/{to}")
+	public String getValueTime(@PathParam("id") String id, @PathParam("from") long from, @PathParam("to") long to) {
+		/* 
+		 * Input parameters:
+		 * id:161001121401-0001.DAPO_ENRG_l1_Volt
+		 * from:1485253521931
+		 * to: 1485257167102
+		 * url:http://localhost:8091/api/stabilize/device/timestamp/161001121401-0001.DAPO_ENRG_l1_Volt/1485253521931/1485257167102
+		 */
+		//DeviceId dev = new DeviceId(id, "dimis.wrapper");
+		
+		//logger.debug("Deviceid " + id + " from: " + from + " to: " + to);
+		
+		//TODO: we will now need the containerID
+	
+		InformationBrokerInterface infoBroker = BundleFactory.getInformationBroker();
+		try {
+			logger.debug("Calling getSQLResultSet(sql)");
+			List<DoublePoint> resultSet = infoBroker.getDoubleValue(id, from, to);
+			if (resultSet.size() != 0) {
+				logger.debug("resultset is not zero");
+				return resultSet.toString();
+			} else {
+				return "ResultSet == null";
+			}
+=======
+>>>>>>> refs/remotes/origin/master
+		} catch (TimeoutException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "error";
+		}
+		// package values - deviceId,parameterId,value,unix_timestamp
+		String resp = "";
+		for (Map.Entry<DeviceId, Double> entry : values.entrySet()) {
+		    DeviceId key = entry.getKey();
+		    Double value = entry.getValue();
+		    // TODO map to wrapperids 
+//		    resp += 
+		}
+
+		return resp;
+		
+//		
+//		InformationBrokerInterface infoBroker = BundleFactory.getInformationBroker();
+//		try {
+//			logger.debug("Calling getSQLResultSet(sql)");
+//			List<DoublePoint> resultSet = infoBroker.getDoubleValue(dev, from, to);
+//			if (resultSet.size() != 0) {
+//				logger.debug("resultset is not zero");
+//				return resultSet.toString();
+//			} else {
+//				return "ResultSet == null";
+//			}
+//		} catch (TimeoutException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return "Timeout error";
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return "error";
+//		}
+	}
+	
+	/**
+	 *  avg, min, max for a specific device(id) and in a grain level of either 5secs, hour, day, month, year 
+	 *  
+	 * @param id
+	 * @param type_id
+	 * @param grainName
+	 * @param start
+	 * @param stop
+	 * @return
+	 */
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Path("/{id}/{type}/{grain}/{from}/{to}")
+	public String getValue(@PathParam("id") String wrapperid, @PathParam("type") String type_id, @PathParam("grain") String grainName, @PathParam("from") long start, @PathParam("to") long stop) {
+		
+		// TODO make list of all devices used for calculation
+		// get registered devices of actuatormaster
+		List<DeviceId> devices = new ArrayList<DeviceId>();
+		DeviceId devid = null;		
+	
+		int grain;
+		int amount = 1;
+		//parse grain
+		if(grainName.equals("second")) {
+			grain = Calendar.SECOND;
+			amount = 5;
+		} else if(grainName.equals("hour")) {
+			grain = Calendar.HOUR;
+		} else if(grainName.equals("day")) {
+			grain = Calendar.DATE;
+		} else if(grainName.equals("month")) {
+			grain = Calendar.MONTH;
+		} else if(grainName.equals("year")) {
+			grain = Calendar.YEAR;
+		} else {
+			return grain_error;
+		}
+		
+<<<<<<< HEAD
+		long from = date - 5000;
+		long to = date;
+		//DeviceId dev = new DeviceId(id, "dummy.wrapper");
+		
+		//logger.debug("Deviceid " + id + " from: " + from + " to: " + to);
+		
+		//TODO: we will need the containerID
+		
+	
+		InformationBrokerInterface infoBroker = BundleFactory.getInformationBroker();
+		try {
+			logger.debug("Calling getSQLResultSet(sql)");
+			List<DoublePoint> resultSet = infoBroker.getDoubleValue(id, from, to);
+			if (resultSet.size() != 0) {
+				logger.debug("resultset is not zero");
+				return resultSet.toString();
+			} else {
+				return "ResultSet == null";
+			}
+		} catch (TimeoutException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Timeout error";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "error";
+=======
+		stabilize.getValues(wrapperid, grain, amount, start, stop);
+		
+		// package data into list
+		List<String> data = new ArrayList<String>();
+		for(Pair p : intervals) {
+			// wrapper, paramtype, avg, max, min, median, start timestamp
+			data.add("[" + wrapperid + "," + type_id + "," + p.mean.get(devid) + "]"); //
+		}
+				// put all in one string
+		String resp = "";
+		for(String d : data) {
+			resp += d;
+>>>>>>> refs/remotes/origin/master
+		}
+		
+		return resp;
+	}
+
+	
+	
+	
+//	@GET
+//	@Produces({ MediaType.TEXT_PLAIN })
+//	@Path("/dailyminvolt/{id}/{from}/{to}")
+//	public String getDailyMinEnergyConsumption(@PathParam("id") String id, @PathParam("from") long from) {
+//		/* 
+//		 * KPI for daily minimum energy consumption.
+//		 * Input parameters:
+//		 * id:161001121401-0001.DAPO_ENRG_l1_EnergyWA
+//		 * from:1485253521931
+//		 * url:http://localhost:8091/api/stabilize/dailymaxvolt/161001121401-0001.DAPO_ENRG_l1_EnergyWA/1485253521931/
+//		 */
+//		DeviceId dev = new DeviceId(id, "dimis.wrapper");
+//		logger.debug("Deviceid " + id + " from: " + from );
+//	
+//		long to = 0;
+//		
+//		AnalyzerInterface analyzer = BundleFactory.getAnalyzer();
+//		try {
+//			logger.debug("Calling analyzer.getMax");
+////			List<DoublePoint> resultSet = infoBroker.getDoubleValue(dev, from, to);
+//			Double max_volt = analyzer.getMax(from, to, dev);
+//			Double min_volt = analyzer.getMin(from, to, dev);
+//			
+//			if ((max_volt > 0) && (min_volt > 0) ) {
+//				logger.debug("max_volt is not zero");
+//				return "Result from analyzer: \nMaximum Voltage: "+max_volt.toString() + "\n"
+//						+  "Minimum Voltage: "+min_volt.toString() + "\n" ;
+//			} else {
+//				return "Result from analyzer: null";
+//			}
+//		} catch (TimeoutException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return "Timeout error";
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return "error";
+//		}
+//	}
+}

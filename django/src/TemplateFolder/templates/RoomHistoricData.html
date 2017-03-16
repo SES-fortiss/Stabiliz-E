@@ -1,0 +1,337 @@
+{% extends "RoomNavbar.html" %}
+            
+{% block content %}
+
+        
+
+            
+
+
+<script type="text/javascript"
+          src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+              'name':'visualization',
+              'version':'1',
+              'packages':['corechart','bar','table','line']
+            }]
+          }"></script>
+<script type="text/javascript">
+      google.load("visualization","1",{packages:["corechart","bar","table","line"]})
+google.setOnLoadCallback(drawChart);
+function drawChart() {
+
+  var container = document.getElementById('example5.1');
+  var chart = new google.visualization.Timeline(container);
+  var dataTable = new google.visualization.DataTable();
+  dataTable.addColumn({ type: 'string', id: 'Device' });
+  dataTable.addColumn({ type: 'string', id: 'State' });
+  dataTable.addColumn({ type: 'date', id: 'Start' });
+  dataTable.addColumn({ type: 'date', id: 'End' });
+  dataTable.addRows([
+    [ 'Light', 'On',       new Date(2014,4,14,12,0,0),  new Date(2014,4,14,13,30,0) ],
+    [ 'Light', 'On',       new Date(2014,4,14,16,0,0),  new Date(2014,4,14,17,30,0) ],
+    [ 'Light', 'On',       new Date(2014,4,14,18,0,0),  new Date(2014,4,14,20,30,0) ],
+    [ 'Coffee machine',   'On',    new Date(2014,4,14,7,30,0), new Date(2014,4,14,10,0,0) ],
+    [ 'Coffee machine',   'On',    new Date(2014,4,14,12,30,0), new Date(2014,4,14,14,0,0) ],
+    [ 'Coffee machine',   'On',    new Date(2014,4,14,14,30,0), new Date(2014,4,14,16,30,0) ],
+    [ 'Coffee machine',   'On',    new Date(2014,4,14,16,30,0), new Date(2014,4,14,18,0,0) ],
+    [ 'Blinds',   'Down',    new Date(2014,4,14,11,30,0), new Date(2014,4,14,18,0,0) ],
+    [ 'Heater',   'On',    new Date(2014,4,13,24,0,0), new Date(2014,4,14,24,0,0) ],
+    ]);
+
+  var options = {
+    timeline: { colorByRowLabel: true },
+    
+    
+  };
+
+  chart.draw(dataTable, options);
+}
+
+</script>
+
+
+<script type="text/javascript"
+          src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+              'name':'visualization',
+              'version':'1.1',
+              'packages':['corechart','table','timeline']
+            }]
+          }"></script>
+
+<script type="text/javascript">
+      google.load("visualization","1.1",{packages:["corechart","bar","table","line"]});
+      google.setOnLoadCallback(drawChart2);
+
+      function drawChart2() {
+        var data = google.visualization.arrayToDataTable([
+          ['Time', 'Power Consumption'],
+          ['1',  1], ['2',  2], ['3',  1], ['4',  1], ['5',  2],
+          ['6',  3], ['7',  4], ['8',  6], ['9',  10],
+          ['10',  11], ['11',  12], ['12',  7], ['13',  10], ['14',  14],
+          ['15',  14], ['16',  9], ['17',  6], ['18',  4], ['19',  5],
+          ['20',  4], ['21',  3], ['22',  2], ['23',  1], ['24',  1],
+        ]);
+
+        var options = {
+            {% for entry in room %}  
+            title : 'Daily power consumption in {{ entry.containerhrname}}',
+            {% endfor %}
+            curveType: 'function',
+            vAxis: {title: "kWh"},
+            hAxis: {    title: "Time",
+                        hAxis: {
+                        viewWindow: {
+                              min: 0,
+                              max: 24
+                        },
+                        ticks: [0,2,4,6,8,10,12,14,16,18,20,22,24] // display labels every 25
+                  }},          
+            //legend: { position: 'bottom' }
+            
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+</script>
+
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization","1.1",{packages:["corechart","bar","table","line"]});
+      google.setOnLoadCallback(drawChart3);
+      function drawChart3() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Light',     20],
+          ['Coffee',      40],
+          ['Blinds',  3],
+          ['Heater', 60],
+        ]);
+
+        var options = {
+          title: 'Each devices share in total daily power consumption',
+          is3D: false,
+          
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+      }
+    </script>
+
+
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1.1", {packages:["bar"]});
+      google.setOnLoadCallback(drawChart1);
+      function drawChart1() {
+        var data2 = google.visualization.arrayToDataTable([
+          ['Time', 'Power Consumption'],
+          ['1',  1], ['2',  2], ['3',  1], ['4',  1], ['5',  2],
+          ['6',  3], ['7',  4], ['8',  6], ['9',  10],
+          ['10',  11], ['11',  12], ['12',  7], ['13',  10], ['14',  14],
+          ['15',  14], ['16',  9], ['17',  6], ['18',  4], ['19',  5],
+          ['20',  4], ['21',  3], ['22',  2], ['23',  1], ['24',  1],
+        ]);
+        
+ 
+
+        var options2 = {
+          
+        series: {
+          0: {axis: 'kWh'}         
+        },
+        axes: {
+          y: {
+            kWh: {label: 'kWh'}          
+          }
+        },
+          
+          hAxis: {title: "Time of Day",
+                        hAxis: {
+                        viewWindow: {
+                              min: 0,
+                              max: 24
+                        },
+                        ticks: [0,2,4,6,8,10,12,14,16,18,20,22,24] // display labels every 25
+                  }},
+        };
+
+        var chart2 = new google.charts.Bar(document.getElementById('chartb'));
+
+        chart2.draw(data2, options2);
+      }
+      
+      
+      
+
+
+
+      
+           
+    google.setOnLoadCallback(drawTable);
+
+      function drawTable() {
+        var data3 = google.visualization.arrayToDataTable([
+          ['Day', 'Price: $ / kWh', 'Costs'],
+          ["Monday",  "0.251 $", "30,87 $"],["Tuesday",  "0.249 $", " 24,90 $"],["Wednesday",  "0.247 $", "22.23 $"],["Thursday",  "0.253 $", " 23.78 $"],["Friday",  "0.25 $", "21.75 $"],["Summed Week",  "Avg. 0.25 $", "123,53 $"]
+        ]);
+
+        var table = new google.visualization.Table(document.getElementById('chartc'));
+        
+        var options3 = {   
+         
+        }
+
+        table.draw(data3, options3);
+      } 
+      
+      
+      
+    </script>
+    
+    
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+      
+      google.setOnLoadCallback(drawVisualization3);
+
+      function drawVisualization3() {
+            
+
+      // 1
+      var data3 = google.visualization.arrayToDataTable([
+        ['Month', 'Light', 'Coffee', 'Blinds', 'Heater', 'Total'],
+        ['Monday',  20,      40,         3,             60,                 123],
+        ['Tuesday',  12,      37,        1,             50,                100],
+        ['Wednesday',  6,      40,        2,             42,                 90],
+        ['Thursday',  18,      32,        2,             44,                 94],
+        ['Friday',  9,      36,         1,             41,                87]
+      ]);
+
+      // 1
+      var options3 = {
+      {% for entry in room %}  
+            title : 'Weekly power consumption in {{ entry.containerhrname}}',
+      {% endfor %}
+      vAxis: {title: "kWh"},
+      hAxis: {title: "Day"},
+      
+      seriesType: "bars",
+      series: {4: {type: "line"}}
+      };
+      
+      // 1
+      var chart = new google.visualization.ComboChart(document.getElementById('chart_div_combo'));
+      chart.draw(data3, options3);
+      }
+
+
+      
+</script>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+      google.load("visualization","1",{packages:["corechart","bar","table","line"]});
+      google.setOnLoadCallback(drawVisualization5);
+
+      function drawVisualization5() {
+            
+
+      // 1
+      var data5 = google.visualization.arrayToDataTable([
+        ['Month',  'Price', 'Costs'],
+        ['Monday',    123, 251],
+        ['Tuesday',   100, 249],
+        ['Wednesday',  90, 247],
+        ['Thursday',   94, 25],
+        ['Friday',     87, 254]
+      ]);
+
+      // 1
+      var options5 = {
+       
+            title : 'Energy price with resulting costs',
+      
+      vAxis: {title: "Euros"},
+      hAxis: {title: "Day"},
+      seriesType: "bars",
+      series: {1: {type: "line"}}
+      };
+      
+      // 1
+      var chart = new google.visualization.ComboChart(document.getElementById('price_chart'));
+      chart.draw(data5, options5);
+      }
+
+
+      
+</script>
+
+
+
+
+
+
+
+            {% for entry in room %}  
+                  <p> <h2>Recorded energy consumption in: <h1>{{ entry.containerhrname}}</h1> <h2>on</h2> <h1> Monday 27.4.15</h1> </h2></p>
+            {% endfor %}
+
+
+<div id="example5.1" style="width: auto; height: 220px;"></div>
+
+<div class="row">
+      <div class="col-sm-6">
+            <div id="curve_chart" style="width: auto; height: 330px"></div>
+      </div>
+            
+      <div class="col-sm-6">
+            <div id="piechart" style="width: auto; height: 330px"></div>
+      </div>
+</div>
+
+<br><br>
+<h2>Redorded energy consumption for: <h1>Calendar Week 18 </h1></h2>
+
+<div class="row">
+      <div class="col-sm-3">
+            <div id="chartc" style="width: auto; height: 250px"></div>
+            
+      </div>
+            
+      <div class="col-sm-9">
+            <div id="chart_div_combo" style="width: auto; height: 250px;"><div>
+      </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

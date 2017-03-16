@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <style>
+      
+      body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #EEE;
+        background-image: url(/static/images/Login3.jpg);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: bottom center;
+      }
+      
+      .container{
+        background-color: rgba(255, 255, 255, 0.63)
+      }
+      
+      .container {
+        width: auto;
+      }
+      
+      .form-control{
+        color: #254160;
+        background-color: rgba(252, 252, 252, 0.68);
+        border-color: rgba(31, 32, 33, 0.13);
+      }
+      
+      .form-signin {
+        max-width: 450px;
+        padding: 50px;
+        margin: 0px auto;
+      }
+      
+      .btn-primary {
+        color: #FFF;
+        background-color: rgba(26, 86, 147, 0.69);
+        border-color: rgba(31, 32, 33, 0.39);
+      }
+      
+      .h2 {
+        color: rgba(6, 6, 6, 0.75);
+      }
+      
+    </style>
+    
+    
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <form class="form-signin" role="form"  method ="POST" action="/Login/">
+        {% csrf_token %}
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputName" class="sr-only">Username</label>
+        <input type="text" id="inputName" name="inputUsername" class="form-control" placeholder="Username" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" name="inputUserpassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+        <!--  <label>
+            <input type="checkbox" value="remember-me"> Save for futur logins
+          </label> -->
+        </div>
+        <input class="btn btn-lg btn-primary btn-block" value = "Sign in" type="submit" />
+      </form>
+      
+    </div> <!-- /container -->
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

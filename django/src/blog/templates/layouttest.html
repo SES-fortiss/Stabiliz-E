@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+  
+  
+
+  
+  
+  
+<html>
+  <head>
+    
+    
+        <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+
+    
+    <!-- Sidebar imports -->
+    
+        <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    
+    
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <!-- End Sidebar imports -->
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+
+    <!-- Custom styles for this template -->
+    <link href="http://getbootstrap.com/examples/navbar/navbar.css" rel="stylesheet">
+        
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  
+<style type="text/css">
+  
+  body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+p {
+  padding-left: 40px;
+}
+  
+</style>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<script type="text/javascript"
+          src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+              'name':'visualization',
+              'version':'1',
+              'packages':['corechart','bar','table','line']
+            }]
+          }"></script>
+<script type="text/javascript">
+      google.load("visualization","1",{packages:["corechart","bar","table","line"]})
+      google.setOnLoadCallback(drawChart2);
+
+      function drawChart2() {
+        var data1 = google.visualization.arrayToDataTable([
+          ['Time', 'Power Consumption'],
+          ['1',  1], ['2',  2], ['3',  1], ['4',  1], ['5',  2],
+          ['6',  3], ['7',  4], ['8',  6], ['9',  10],
+          ['10',  11], ['11',  12], ['12',  7], ['13',  10], ['14',  14],
+          ['15',  14], ['16',  9], ['17',  6], ['18',  4], ['19',  5],
+          ['20',  4], ['21',  3], ['22',  2], ['23',  1], ['24',  1],
+        ]);
+
+        var options1 = {
+            
+            
+            curveType: 'function',
+            vAxis: {title: "kWh"},
+            hAxis: {    title: "Time of Day",
+                        hAxis: {
+                        viewWindow: {
+                              min: 0,
+                              max: 24
+                        },
+                        ticks: [0,2,4,6,8,10,12,14,16,18,20,22,24] // display labels every 25
+                  }},          
+            //legend: { position: 'bottom' }
+        };
+
+        var chart1 = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart1.draw(data1, options1);
+      }
+</script>
+    
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1.1", {packages:["bar"]});
+      google.setOnLoadCallback(drawChart1);
+      function drawChart1() {
+        var data2 = google.visualization.arrayToDataTable([
+          ['Time', 'Power Consumption'],
+          ['1',  1], ['2',  2], ['3',  1], ['4',  1], ['5',  2],
+          ['6',  3], ['7',  4], ['8',  6], ['9',  10],
+          ['10',  11], ['11',  12], ['12',  7], ['13',  10], ['14',  14],
+          ['15',  14], ['16',  9], ['17',  6], ['18',  4], ['19',  5],
+          ['20',  4], ['21',  3], ['22',  2], ['23',  1], ['24',  1],
+        ]);
+        
+ 
+
+        var options2 = {
+          
+        series: {
+          0: {axis: 'kWh'}         
+        },
+        axes: {
+          y: {
+            kWh: {label: 'kWh'}          
+          }
+        },
+          
+          hAxis: {title: "Time of Day",
+                        hAxis: {
+                        viewWindow: {
+                              min: 0,
+                              max: 24
+                        },
+                        ticks: [0,2,4,6,8,10,12,14,16,18,20,22,24] // display labels every 25
+                  }},
+        };
+
+        var chart2 = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+        chart2.draw(data2, options2);
+      }
+      
+      
+      
+
+
+
+      
+           
+    google.setOnLoadCallback(drawTable);
+
+      function drawTable() {
+        var data3 = google.visualization.arrayToDataTable([
+          ['Time of Day', 'Power Consumption',],
+          ['1',  "1 - kWh"], ['2',  "2 - kWh"], ['3',  "1 - kWh"], ['4',  "1 - kWh"], ['5',  "2 - kWh"],
+          ['6',  "3 - kWh"], ['7',  "4 - kWh"], ['8',  "6 - kWh"], ['9',  "10 - kWh"],
+          ['10',  "11 - kWh"], ['11',  "12 - kWh"], ['12',  "7 - kWh"], ['13',  "10 - kWh"], ['14',  "14 - kWh"],
+          ['15',  "14 - kWh"], ['16',  "9 - kWh"], ['17',  "6 - kWh"], ['18',  "4 - kWh"], ['19',  "5 - kWh"],
+          ['20',  "4 - kWh"], ['21',  "3 - kWh"], ['22',  "2 - kWh"], ['23',  "1 - kWh"], ['24',  "1 - kWh"],
+        ]);
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+        
+        var options3 = {   
+          
+        }
+
+        table.draw(data3, options3);
+      } 
+      
+      
+      
+    </script>
+    
+    
+    
+    
+    
+   
+  </head>
+  <body>
+
+    
+    <div class="row">
+      <div class="col-sm-5">
+            <h3> Chart 1  </h3> <h4>Total: 133 - kWh</h4>
+            <div id="columnchart_material" style="width: auto; height: 330px"></div>
+      </div>
+            
+      <div class="col-sm-5">
+            <h3> Chart 2</h3> <h4>Total: 133 - kWh</h4>
+            <div id="curve_chart" style="width: auto; height: 330px"></div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-sm-5">
+            <h3> Chart 3</h3> <h4>Total: 133 - kWh</h4>
+            <div id="table_div" style="width: auto; height: 250px"></div>
+      </div>
+      <div class="col-sm-5">
+            
+      </div>
+    </div>
+    
+    
+  </body>
+</html>

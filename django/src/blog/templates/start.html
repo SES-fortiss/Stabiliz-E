@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+    <html>
+
+<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization',
+       'version':'1','packages':['timeline']}]}"></script>
+<script type="text/javascript">
+
+google.setOnLoadCallback(drawChart);
+function drawChart() {
+
+  var container = document.getElementById('example5.1');
+  var chart = new google.visualization.Timeline(container);
+  var dataTable = new google.visualization.DataTable();
+  dataTable.addColumn({ type: 'string', id: 'Device' });
+  dataTable.addColumn({ type: 'string', id: 'State' });
+  dataTable.addColumn({ type: 'date', id: 'Start' });
+  dataTable.addColumn({ type: 'date', id: 'End' });
+  dataTable.addRows([
+    [ 'Light', 'On',       new Date(2014,4,14,12,0,0),  new Date(2014,4,14,13,30,0) ],
+    [ 'Light', 'On',       new Date(2014,4,14,16,0,0),  new Date(2014,4,14,17,30,0) ],
+    [ 'Light', 'On',       new Date(2014,4,14,18,0,0),  new Date(2014,4,14,20,30,0) ],
+    [ 'Coffee machine',   'On',    new Date(2014,4,14,7,30,0), new Date(2014,4,14,10,0,0) ],
+    [ 'Coffee machine',   'On',    new Date(2014,4,14,12,30,0), new Date(2014,4,14,14,0,0) ],
+    [ 'Coffee machine',   'On',    new Date(2014,4,14,14,30,0), new Date(2014,4,14,16,30,0) ],
+    [ 'Coffee machine',   'On',    new Date(2014,4,14,16,30,0), new Date(2014,4,14,18,0,0) ],
+    [ 'Blinds',   'Down',    new Date(2014,4,14,11,30,0), new Date(2014,4,14,18,0,0) ],
+    [ 'Heater',   'On',    new Date(2014,4,13,24,0,0), new Date(2014,4,14,6,30,0) ],
+    [ 'Heater',   'On',    new Date(2014,4,14,20,30,0), new Date(2014,4,14,24,0,0) ],
+    ]);
+
+  var options = {
+    timeline: { colorByRowLabel: true }
+  };
+
+  chart.draw(dataTable, options);
+}
+
+</script>
+
+
+
+
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.load('visualization', '1', {packages: ['corechart', 'line']});
+      google.setOnLoadCallback(drawVisualization);
+
+      function drawVisualization() {
+            
+
+      // 1
+      var data = google.visualization.arrayToDataTable([
+        ['Month', 'Light', 'Coffee', 'Blinds', 'Heater', 'Average'],
+        ['Monday',  165,      938,         522,             998,                 614.6],
+        ['Tuesday',  135,      1120,        599,             1268,                682],
+        ['Wednesday',  157,      1167,        587,             807,                 623],
+        ['Thursday',  139,      1110,        615,             968,                 609.4],
+        ['Friday',  136,      691,         629,             1026,                569.6]
+      ]);
+      
+      // 2
+      var data2 = new google.visualization.DataTable();
+      data2.addColumn('number', 'X');
+      data2.addColumn('number', 'Dogs');
+      
+      data2.addRows([
+        [0, 0],   [1, 10],  [2, 23],  [3, 17],  [4, 18],  [5, 9],
+        [6, 11],  [7, 27],  [8, 33],  [9, 40],  [10, 32], [11, 35],
+        [12, 30], [13, 40], [14, 42], [15, 47], [16, 44], [17, 48],
+        [18, 52], [19, 54], [20, 42], [21, 55], [22, 56], [23, 57],
+        [24, 60]
+      ]);
+
+      // 1
+      var options = {
+      
+            title : 'Daily energy consumption in ',
+      
+      vAxis: {title: "MWh"},
+      hAxis: {title: "Day"},
+      seriesType: "bars",
+      series: {4: {type: "line"}}
+      };
+      
+      // 2
+      var options2 = {
+        hAxis: {
+          title: 'Time'
+        },
+        vAxis: {
+          title: 'Popularity'
+        }
+      };
+      
+      // 1
+      var chart = new google.visualization.ComboChart(document.getElementById('chart_div_combo'));
+      chart.draw(data, options);
+      
+      // 2
+      var chart2 = new google.visualization.LineChart(document.getElementById('chart_div_line'));
+      chart2.draw(data2, options2);
+      }
+
+
+      
+</script>
+
+
+
+
+
+<div id="example5.1" style="width: auto; height: 250px;"></div>
+
+<br><br>
+<div id="chart_div_line" style="width: auto; height: 250px;">aaaaaaaaaaaaa<div>
+
+<br><br><br><br><br><br><br><br><br>
+<h1>asdfaisdf</h1>
+
+<br><br>
+<div id="chart_div_combo" style="width: auto; height: 250px;">bbbbbbbbbbb<div>
+
+  
+
+
+        
+    </html>

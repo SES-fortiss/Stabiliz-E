@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+  
+  
+
+  
+  
+  
+<html>
+  <head>
+    
+    
+        <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+
+    
+    <!-- Sidebar imports -->
+    
+        <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    
+    
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <!-- End Sidebar imports -->
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+
+    <!-- Custom styles for this template -->
+    <link href="http://getbootstrap.com/examples/navbar/navbar.css" rel="stylesheet">
+        
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  
+<style type="text/css">
+  
+  body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+p {
+  padding-left: 40px;
+}
+  
+</style>
+
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+      google.load("visualization", "1.1", {packages:["corechart","bar"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Blinds',  4],
+          ['Coffee',      38],
+          ['Light',     31],
+          ['Heater', 60],
+        ]);
+
+        var options = {
+          
+          is3D: false,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+      }
+</script>
+  
+  
+
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+    google.load('visualization', '1.1', {packages: ['line']});
+      google.setOnLoadCallback(drawChart4);
+
+      function drawChart4() {
+        var data4 = google.visualization.arrayToDataTable([
+         ['Time','Blinds', 'Coffee', 'Light', 'Heater','Total' ],
+          ['1',0,0,0,1,  1], ['2',0,0,0,2,  2], ['3',0,0,0,1,  1], ['4',0,0,0,1,  1], ['5',0,0,0,2,  2],
+          ['6',0,1,1,1,  3], ['7',0,1,1,2,  4], ['8', 0,1,2,3, 6], ['9', 0,2,4,4,  10],
+          ['10',0,3,4,4,  11], ['11',1,3,4,4,  12], ['12',0,1,3,3,  7], ['13',1,1,4,4,  10], ['14',0,4,6,4,  14],
+          ['15',1,4,5,4,  14], ['16',0,2,3,4,  9], ['17',1,1,1,3,  6], ['18',0,1,0,3,  4], ['19',0,2,0,3,  5],
+          ['20',0,2,0,2,  4], ['21',0,2,0,1,  3], ['22',0,0,0,2,  2], ['23',0,0,0,1,  1], ['24',0,0,0,1,  1],
+        ]);
+
+        var options4 = {
+            
+            
+            curveType: 'function',
+            vAxis: {title: "kWh"},
+            hAxis: {    title: "Time of Day",
+                        hAxis: {
+                        viewWindow: {
+                              min: 0,
+                              max: 24
+                        },
+                        ticks: [0,2,4,6,8,10,12,14,16,18,20,22,24] // display labels every 25
+                  }},          
+            //legend: { position: 'bottom' }
+        };
+
+        var chart4 = new google.visualization.LineChart(document.getElementById('curve_chart2'));
+
+        chart4.draw(data4, options4);
+      }
+  </script>
+    
+    
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["bar"]});
+      google.setOnLoadCallback(drawStuff);
+
+      function drawStuff() {
+        var data = new google.visualization.arrayToDataTable([
+          ['Devices', 'Blinds', 'Coffee', 'Lights', 'Heater'],
+          [' ',     4,38,31,60],
+
+        ]);
+
+        var options = {
+          isStacked: true,
+          colored: true,
+
+
+          axes: {
+            y: {
+              0: { side: 'left', label: 'kWh'} // Top x-axis.
+            }
+        },
+        };
+
+      var chart = new google.charts.Bar(document.getElementById('dual_y_div'));
+      chart.draw(data, options);
+    };
+    </script>
+    
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["bar"]});
+      google.setOnLoadCallback(drawStuff2);
+
+      function drawStuff2() {
+        var data = new google.visualization.arrayToDataTable([
+          ['Devices', 'Blinds', 'Coffee', 'Lights', 'Heater'],
+          [' ',     4,38,31,60],
+
+
+        ]);
+
+        var options = {
+
+        legend: { position: 'top', maxLines: 4 },
+
+        isStacked: true,
+          axes: {
+            y: {
+              0: { side: 'left', label: 'kWh'}, // Top x-axis.
+            }
+        },
+        
+        };
+
+      var chart = new google.visualization.ColumnChart(document.getElementById('chart4'));
+      chart.draw(data, options);
+    };
+    </script>
+ 
+    
+   
+  </head>
+  <body>
+
+    
+    <div class="row">
+      <div class="col-sm-5">
+            <h3>Chart 1</h3>
+            <div id="piechart" style="width: auto; height: 310px"></div>
+      </div>
+            
+      <div class="col-sm-5">
+            <h3>Chart 2</h3>
+            <div id="curve_chart2" style="width: auto; height: 310px;"></div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-sm-5">
+        <h3>Chart 3</h3>
+            <div id="dual_y_div" style="width: 500px; height: 310px"></div>       
+      </div>
+      <div class="col-sm-5">
+        <h3>Chart 4</h3>
+            <div id="chart4" style="width: 450px; height: 320px"></div> 
+            
+      </div>
+    </div>
+    
+    
+  </body>
+</html>

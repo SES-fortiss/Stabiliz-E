@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+  
+  
+
+  
+  
+  
+<html>
+  <head>
+    
+    
+        <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+
+    
+    <!-- Sidebar imports -->
+    
+        <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    
+    
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <!-- End Sidebar imports -->
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+
+    <!-- Custom styles for this template -->
+    <link href="http://getbootstrap.com/examples/navbar/navbar.css" rel="stylesheet">
+        
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  
+<style type="text/css">
+  
+  body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+</style>
+  
+  
+  
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart","bar"]});
+      google.setOnLoadCallback(drawVisualization);
+
+      function drawVisualization() {
+            
+
+      // 1
+      var data = google.visualization.arrayToDataTable([
+        ['Week', 'Blinds', 'Coffee', 'Lights' , 'Heater', 'Total'],
+        ['Monday',  4,      48,         32,             60,                 123],
+        ['Tuesday',  1,      37,        12,             50,                100],
+        ['Wednesday',  2,      40,        6,             42,                 90],
+        ['Thursday',  2,      32,        18,             44,                 94],
+        ['Friday',  1,      36,         9,             41,                87]
+      ]);
+
+      // 1
+      var options = {
+      
+      
+      
+      vAxis: {title: "kWh"},
+      hAxis: {title: "Week"},
+      seriesType: "bars",
+      series: {4: {type: "line"}}
+      };
+      
+      // 1
+      var chart = new google.visualization.ComboChart(document.getElementById('chart_div_combo'));
+      chart.draw(data, options);
+      }
+
+
+      
+</script>
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["bar"]});
+      google.setOnLoadCallback(drawStuff);
+
+      function drawStuff() {
+        var data = new google.visualization.arrayToDataTable([
+        ['Week', 'Blinds', 'Coffee', 'Lights' , 'Heater', 'Total'],
+        ['Monday',  4,      48,         32,             60,                 123],
+        ['Tuesday',  1,      37,        12,             50,                100],
+        ['Wednesday',  2,      40,        6,             42,                 90],
+        ['Thursday',  2,      32,        18,             44,                 94],
+        ['Friday',  1,      36,         9,             41,                87]
+      ]);
+
+        var options = {
+          isStacked: true,
+          colored: true,
+
+
+          axes: {
+            y: {
+              0: { side: 'left', label: 'kWh'} // Top x-axis.
+            }
+        },
+        };
+
+      var chart = new google.charts.Bar(document.getElementById('dual_y_div'));
+      chart.draw(data, options);
+    };
+    </script>
+
+    
+   
+</head>
+  <body>
+
+    
+    <div class="row">
+      <div class="col-sm-6">
+            <h3>Chart 1 </h3>
+            <div id="chart_div_combo" style="width: auto; height: 310px"></div>
+      </div>
+            
+      <div class="col-sm-6">
+            <h3>Chart 2 </h3>
+            <div id="dual_y_div" style="width: auto; height: 310px;"></div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-sm-6">
+        
+            <div id="dual_y_div" style="width: auto; height: 310px"></div>       
+      </div>
+      <div class="col-sm-6">
+        
+            <div id="chart4" style="width: auto; height: 330px"></div> 
+            
+      </div>
+    </div>
+    
+    
+  </body>
+</html>
