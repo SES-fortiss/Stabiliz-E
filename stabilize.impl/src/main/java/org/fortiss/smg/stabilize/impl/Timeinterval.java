@@ -12,7 +12,7 @@ import org.fortiss.smg.analyzer.api.NoDataFoundException;
 import org.fortiss.smg.containermanager.api.devices.DeviceId;
 import org.slf4j.LoggerFactory;
 
-public class Pair {
+public class Timeinterval {
 
 
 	private static org.slf4j.Logger logger = LoggerFactory.getLogger(StabilizeImpl.class);
@@ -29,7 +29,7 @@ public class Pair {
 //	Double min;
 //	Double max;
 	
-	public Pair(long start, long stop) {
+	public Timeinterval(long start, long stop) {
 		this.start = start;
 		this.stop = stop;
 	}
@@ -57,6 +57,10 @@ public class Pair {
 			e.printStackTrace();
 			// TODO what happens for a timeout? return which kind or
 			// error???
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			
 		}
 	}
 	

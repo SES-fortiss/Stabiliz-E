@@ -321,7 +321,7 @@ public interface ContainerManagerInterface extends HealthCheck {
 	 * @return HashMap with all SIDeviceTypes [key] incl. Entry(Value, TimeStamp) [value] for a given ContainerID 
 	 * @throws TimeoutException
 	 */
-	public HashMap<SIDeviceType, Pair<Double, Long>> getDetailedValues(String ContainerId) throws TimeoutException;
+//	public HashMap<SIDeviceType, Pair<Double, Long>> getDetailedValues(String ContainerId) throws TimeoutException;
 	
 	//public boolean updateContainer(String containerIDold, String containerIDnew, String HRName, ContainerType containerType, ContainerFunction containerFunction, int virtual) throws TimeoutException;
 	//public boolean updateContainer(String containerID, String HRName, ContainerType containerType, ContainerFunction containerFunction, int virtual) throws TimeoutException;

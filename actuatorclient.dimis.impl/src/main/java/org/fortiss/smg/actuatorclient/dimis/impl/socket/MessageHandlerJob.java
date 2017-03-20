@@ -68,8 +68,9 @@ public class MessageHandlerJob implements InterruptableJob {
                     // handle read response message
                     ReadResponse response = ((ReadResponse) dimisMessage.message);
 //                    Methods.PrintLine("Read Response: " + readResponse.toJson());
+                    Methods.PrintLine("Read Response: " + response.toJson());
                     impl.createEvents(response.deviceList);
-                    Methods.PrintLine("Read Response: " + response.deviceList.get(0).printData());
+//                    Methods.PrintLine("Read Response: " + response.deviceList.get(0).printData());
                 } else if (dimisMessage.message instanceof WriteResponse) {
                     // handle write response message
                     WriteResponse response = ((WriteResponse) dimisMessage.message);
@@ -86,6 +87,7 @@ public class MessageHandlerJob implements InterruptableJob {
             } catch (Exception ex) {
                 canRun = false;
                 Methods.PrintLine("Error in message parser: " + ex.getMessage());
+                ex.printStackTrace();
             }
         }
         

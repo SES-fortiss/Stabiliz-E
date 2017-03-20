@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
 
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+//import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math3.util.Pair;
 import org.fortiss.smg.actuatormaster.api.ActuatorMasterQueueNames;
 import org.fortiss.smg.actuatormaster.api.IActuatorListener;
@@ -888,10 +888,10 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 
 	
 
-	@Override
-	public HashMap<SIDeviceType, Pair<Double, Long>> getDetailedValues(String ContainerId) throws TimeoutException {
+//	@Override
+//	public HashMap<SIDeviceType, Pair<Double, Long>> getDetailedValues(String ContainerId) throws TimeoutException {
 		// TODO Auto-generated method stub
-		HashMap<SIDeviceType, Pair<Double, Long>>  detailedValues = new HashMap<SIDeviceType, Pair<Double, Long>>();
+//		HashMap<SIDeviceType, Pair<Double, Long>>  detailedValues = new HashMap<SIDeviceType, Pair<Double, Long>>();
 		
 //		Map<SIDeviceType, SummaryStatistics> summaryStatistics = this.cons.get(ContainerId).getSummaryStatisticsMap();
 //		
@@ -905,8 +905,8 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 //		}
 		
 		
-		return detailedValues;
-	}
+//		return detailedValues;
+//	}
 
 	
 	

@@ -62,7 +62,7 @@ public class ActuatorClientImpl implements IActuatorClient {
 		this.wrapperTag = wrapperTag;
 //		loadStaticDevs(wrapperTag);
 		this.pollFrequency = pollFreq;
-		logger.info("host: " +host+ " port: " +port + " pollFrequency: ");
+		logger.info("host: " +host+ " port: " +port + " pollFrequency: " + pollFreq);
 		
 	    Configs.buildConfigs(new String[] { "10001", "1000" });
 		
@@ -216,11 +216,13 @@ public class ActuatorClientImpl implements IActuatorClient {
 	
 	public void createEvents(List<Device> devicesList) {
 		logger.debug("CreateEvents in SMG2.0");
+		if(devices.isEmpty()) {
+			createDeviceList(devicesList);
+			sendNewDeviceEvents();
+		}
+		
 		for(Device dev : devicesList) {
-			if(devices.isEmpty()) {
-				createDeviceList(devicesList);
-				sendNewDeviceEvents();
-			}
+			
 			ArrayList<DataIdentifier> dataIDList = dev.dataIDList;
 			ArrayList<Double> valuesList = dev.valuesList;
 			for(int i = 0; i < dataIDList.size()-1; i++) {

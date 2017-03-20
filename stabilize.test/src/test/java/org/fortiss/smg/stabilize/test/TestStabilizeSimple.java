@@ -24,7 +24,7 @@ import org.fortiss.smg.informationbroker.api.InformationBrokerInterface;
 import org.fortiss.smg.informationbroker.api.InformationBrokerQueueNames;
 import org.fortiss.smg.remoteframework.lib.DefaultProxy;
 import org.fortiss.smg.stabilize.impl.InterfaceFactory;
-import org.fortiss.smg.stabilize.impl.Pair;
+import org.fortiss.smg.stabilize.impl.Timeinterval;
 import org.fortiss.smg.stabilize.impl.StabilizeImpl;
 import org.junit.After;
 import org.junit.Before;
@@ -207,11 +207,11 @@ INSERT INTO `DoubleEvents`(`ContainerID`, `value`, `maxAbsError`, `timestamp`) V
 			// clear kpi table
 			infoB.executeQuery("Delete from KPI;");
 			// set interval
-			List<Pair> intervals = impl.getIntervals(1487026800000L, 1487113200000L, Calendar.HOUR, 1);
+			List<Timeinterval> intervals = impl.getIntervals(1487026800000L, 1487113200000L, Calendar.HOUR, 1);
 
 			
 
-			for(Pair p : intervals) {
+			for(Timeinterval p : intervals) {
 				logger.info("Start: " + new Date(p.getStart()) + " Stop: " + new Date(p.getStop()));
 				logger.info("Start: " + p.getStart() + " Stop: " + p.getStop());
 			}
@@ -256,7 +256,7 @@ INSERT INTO `DoubleEvents`(`ContainerID`, `value`, `maxAbsError`, `timestamp`) V
 
 			infoB.executeQuery("Delete from KPI;");
 
-			List<Pair> intervals = impl.getIntervals(-627267600000L, -627181200000L, Calendar.HOUR, 1);
+			List<Timeinterval> intervals = impl.getIntervals(-627267600000L, -627181200000L, Calendar.HOUR, 1);
 			List<String> containerIds = Arrays.asList("18", "19");
 
 			impl.calculateVoltageDistortion(intervals, containerIds);

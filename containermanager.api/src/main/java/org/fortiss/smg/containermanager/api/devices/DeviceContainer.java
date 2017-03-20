@@ -1,9 +1,7 @@
 package org.fortiss.smg.containermanager.api.devices;
 
 import java.util.HashMap;
-
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class DeviceContainer extends Container {

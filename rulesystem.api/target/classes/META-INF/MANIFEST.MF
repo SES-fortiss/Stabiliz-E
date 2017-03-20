@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1489961011652
+Build-Jdk: 1.8.0_121
+Built-By: pragyagupta
+Bundle-ManifestVersion: 2
+Bundle-Name: rulesystem.api
+Bundle-SymbolicName: rulesystem.api
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.fortiss.smg.rulesystem.api;uses:="org.fortiss.smg.am
+ bulance.api";version="1.0.0"
+Import-Package: org.fortiss.smg.ambulance.api;version="[1.0,2)"
+Tool: Bnd-1.50.0

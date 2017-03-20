@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Rules>
+	<rule name = "TestRule1"> 
+		<salience>1</salience>
+  		<duration>1</duration>
+		<no-loop> true </no-loop>
+		<agenda-group> active </agenda-group>
+		<activation-group> activation-group </activation-group>
+    	<ruleCondition> condition </ruleCondition>
+       	<ruleConsequence ruleType = "notification">
+       		<user userid= "123"/>
+      		<container containerid= "room225"/>
+			<notification notificationType = "mail">
+      	 		<content> content </content>
+			</notification>
+       	</ruleConsequence>
+	</rule>
+	
+	<rule name = "TestRule2"> 
+		<salience>2</salience>
+  		<duration>3</duration>
+		<no-loop> true </no-loop>
+		<agenda-group> inactive </agenda-group>
+		<activation-group> activation-group </activation-group>
+    	<ruleCondition> Boolean condition </ruleCondition>
+       	<ruleConsequence ruleType= "command">
+       		<user userid= "789"/>
+      		<container containerid= "room225"/>	
+      		<command>
+       			<content>"sendCommand(new DoubleCommand(10.0) ,new DeviceId("blinds", "dummy"));"</content>
+      		</command>
+       		
+       	</ruleConsequence>
+	</rule>
+	</Rules>
+</Rules>

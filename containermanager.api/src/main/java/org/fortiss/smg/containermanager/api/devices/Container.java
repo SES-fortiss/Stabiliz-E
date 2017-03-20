@@ -22,7 +22,7 @@ public class Container {
 	ContainerType containerType = ContainerType.UNKNOWN;
 	ContainerFunction containerFunction = ContainerFunction.NONE;
 	
-	private Map<SIDeviceType, Long> timestampForDeviceType;
+	//private Map<SIDeviceType, Long> timestampForDeviceType;
 
 	/*
 	 * will be forwarded to parent (does not include virtually added containers
@@ -130,9 +130,9 @@ public class Container {
 	/*
 	 * Provide statistical information about the container
 	 */
-	public Map<SIDeviceType, SummaryStatistics> getSummaryStatisticsMap() {
-		return summaryStatistics;
-	}
+//	public Map<SIDeviceType, SummaryStatistics> getSummaryStatisticsMap() {
+//		return summaryStatistics;
+//	}
 	
 	
 	public SummaryStatistics getSummaryStatistics(SIDeviceType type) {
@@ -158,14 +158,14 @@ public class Container {
 		return getSummaryStatistics(type).getMin();
 	}
 	
-	public long getTimeStamp(SIDeviceType type) {
-		return timestampForDeviceType.get(type);
-	}
+//	public long getTimeStamp(SIDeviceType type) {
+//		return timestampForDeviceType.get(type);
+//	}
 	
 
 	public void onUpdateStatistics(SIDeviceType type, Long timestamp, ContainerManagerInterface cint) throws TimeoutException {
 		
-		timestampForDeviceType.put(type, timestamp);
+		//timestampForDeviceType.put(type, timestamp);
 		
 		// our current values
 		String previous = null;

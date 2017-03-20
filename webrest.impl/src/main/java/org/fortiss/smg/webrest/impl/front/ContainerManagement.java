@@ -17,7 +17,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.commons.math3.util.Pair;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.fortiss.smg.containermanager.api.ContainerManagerInterface;
@@ -54,14 +53,14 @@ public class ContainerManagement {
 	public static final int TIMEOUTLONG = 5000;
 
 	// ContainerManagerInterface container;
-
-	@GET
-	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON })
-	@Path("/container/detailedvalues/{containerId}")
-	public HashMap<SIDeviceType, Pair<Double, Long>> getDetailedValues(@PathParam("containerId") String containerId)
-			throws TimeoutException {
-		return containerManager.getDetailedValues(containerId);
-	}
+//
+//	@GET
+//	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON })
+//	@Path("/container/detailedvalues/{containerId}")
+//	public HashMap<SIDeviceType, Pair<Double, Long>> getDetailedValues(@PathParam("containerId") String containerId)
+//			throws TimeoutException {
+//		return containerManager.getDetailedValues(containerId);
+//	}
 	
 	
 	@GET

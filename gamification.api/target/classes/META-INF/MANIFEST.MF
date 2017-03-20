@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1489961017113
+Build-Jdk: 1.8.0_121
+Built-By: pragyagupta
+Bundle-ManifestVersion: 2
+Bundle-Name: gamification.api
+Bundle-SymbolicName: gamification.api
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.fortiss.smg.gamification.api;uses:="org.fortiss.smg.
+ ambulance.api";version="1.0.0"
+Import-Package: org.fortiss.smg.ambulance.api;version="[1.0,2)"
+Tool: Bnd-1.50.0

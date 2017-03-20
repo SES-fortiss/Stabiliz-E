@@ -3,6 +3,7 @@ package org.fortiss.smg.config.lib;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeoutException;
@@ -25,8 +26,8 @@ public class WrapperConfigManager {
 	
 
 	private static boolean allowmultiple = false;
-	private static ConcurrentHashMap<String, ArrayList<WrapperConfig>> wrapperConfigList = new ConcurrentHashMap<String, ArrayList<WrapperConfig>>(); 
-	private static ConcurrentHashMap<String, ArrayList<WrapperConfig>> wrapperConfigListTaken = new ConcurrentHashMap<String, ArrayList<WrapperConfig>>(); 
+	private static Map<String, ArrayList<WrapperConfig>> wrapperConfigList = new ConcurrentHashMap<String, ArrayList<WrapperConfig>>(); 
+	private static Map<String, ArrayList<WrapperConfig>> wrapperConfigListTaken = new ConcurrentHashMap<String, ArrayList<WrapperConfig>>(); 
 		
 	
 	static WrapperConfigManager instance = new WrapperConfigManager();

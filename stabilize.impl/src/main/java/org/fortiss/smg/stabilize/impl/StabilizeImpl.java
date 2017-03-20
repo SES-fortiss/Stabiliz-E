@@ -9,14 +9,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
+import org.apache.commons.math3.util.Pair;
 import org.fortiss.smg.ambulance.api.HealthCheck;
 import org.fortiss.smg.analyzer.api.NoDataFoundException;
 import org.fortiss.smg.containermanager.api.ContainerManagerInterface;
 import org.fortiss.smg.containermanager.api.IContainerManagerListener;
+import org.fortiss.smg.containermanager.api.devices.ContainerType;
 import org.fortiss.smg.containermanager.api.devices.DeviceContainer;
 import org.fortiss.smg.containermanager.api.devices.DeviceId;
-import org.fortiss.smg.informationbroker.api.DoublePoint;
-import org.fortiss.smg.informationbroker.api.InformationBrokerInterface;
+import org.fortiss.smg.containermanager.api.devices.SIDeviceType;
 import org.fortiss.smg.stabilize.api.StabilizeInterface;
 import org.fortiss.smg.stabilize.api.StabilizeQueueNames;
 import org.slf4j.LoggerFactory;
@@ -67,25 +68,22 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 		return false;
 	}
 
-	public List<Map<String,Object>> getValues(String wrapperid, String type, int grain, int amount, long start, long stop) {
+	public List<Map<String,Object>> getValues(String containerId, int grain, int amount, long start, long stop) {
 
-		List<Pair> intervals = getIntervals(start, stop, grain, amount);
+		List<Timeinterval> intervals = getIntervals(start, stop, grain, amount);
 		
 		ContainerManagerInterface containerManager = InterfaceFactory.getContainerManager();
 
-		try {
-			String containerId = containerManager.getContainerId(new DeviceId(type, wrapperid));
-			// calculate avg, mean, min, max for all pairs in the interval
-			for (Pair p : intervals) {
+			// calculate avg, mean, min, max for all Timeintervals in the interval
+			for (Timeinterval p : intervals) {
 				p.calculate(containerId);
 			}
 			
 			List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
 			// package data
-			for (Pair p : intervals) {
+			for (Timeinterval p : intervals) {
 				Map<String, Object> resultPoint = new HashMap<String, Object>();
-				resultPoint.put("wrapperid", wrapperid);
-				resultPoint.put("type", type);
+
 				resultPoint.put("mean", p.mean.get(containerId));
 				resultPoint.put("max", p.max.get(containerId));
 				resultPoint.put("min", p.min.get(containerId));
@@ -96,16 +94,10 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 			}
 
 			return result;
-		} catch (TimeoutException e) {
-			e.printStackTrace();
-		}
-
-		// TODO what to return?
-		return null;
 	}
 	
-	public static List<Pair> getIntervals(long start, long stop, int grain, int amount) {
-		List<Pair> intervals = new ArrayList<Pair>();
+	public static List<Timeinterval> getIntervals(long start, long stop, int grain, int amount) {
+		List<Timeinterval> intervals = new ArrayList<Timeinterval>();
 		
 		Calendar cal_start = Calendar.getInstance();
 		Calendar cal_stop = Calendar.getInstance();
@@ -119,44 +111,36 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 		temp_stop.add(grain, amount);
 		
 		for(;temp_stop.compareTo(cal_stop) <= 0; cal_start.add(grain, amount), temp_stop.add(grain, amount)) {
-			intervals.add(new Pair(cal_start.getTimeInMillis(), temp_stop.getTimeInMillis()));
+			intervals.add(new Timeinterval(cal_start.getTimeInMillis(), temp_stop.getTimeInMillis()));
 		}
 		return intervals;
 		
 	}
-
-	public List<Map<String, Object>> getLatest() throws IOException, TimeoutException {
-		InformationBrokerInterface infoBroker = InterfaceFactory.getInformationBroker();
+	
+	
+	public HashMap<String, Pair<Double, Long>> getLatest() {
 		ContainerManagerInterface containerManagerInterface = InterfaceFactory.getContainerManager();
 
-		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		HashMap<String, Pair<Double, Long>> result = null;
 		
 		for (String containerId : containerMappingDeviceId.values()) {
-			// check for device container
-			// TODO neue methode in containermanager für timestamps
+
 			try {
 				DeviceContainer dev = containerManagerInterface.getDeviceContainer(containerId);
-				long time = new Date().getTime();
-				List<DoublePoint> values = infoBroker.getDoubleValue(containerId, time, time);
+				if (dev.getContainerType().equals(ContainerType.DEVICE)) {
+					long time = new Date().getTime();
+					HashMap<SIDeviceType, Pair<Double, Long>> values = null;
+//					values = containerManagerInterface.getDetailedValues(containerId);
 
-				if (values != null && !values.isEmpty()) {
+					if (values != null && !values.isEmpty()) {
 
-					DoublePoint point = values.get(0);
-					Double value = point.getValue();
-					long timestamp = point.getTime();
+						// take first one and save it - Device container should only have one value
+						for (Pair<Double, Long> v : values.values()) {
+							result.put(containerId, v);
+							break;
+						}
 
-					// TODO  wrapper und devid nicht nötig weil containerid
-//					DeviceId devID = dev.getDeviceId();
-//					String wrapper = devID.getWrapperId();
-//					String devId = devID.getDevId();
-
-					Map<String, Object> resultPoint = new HashMap<String, Object>();
-					resultPoint.put("value", (Object) value);
-					resultPoint.put("timestamp", timestamp);
-//					resultPoint.put("wrapperid", wrapper);
-//					resultPoint.put("devid", devId);
-
-					result.add(resultPoint);
+					}
 				}
 			} catch (TimeoutException e) {
 				e.printStackTrace();
@@ -189,9 +173,9 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 		start = 1487026800000L;
 		stop = 1487113200000L;
 
-		List<Pair> intervals = getIntervals(start, stop, grain, 1);
+		List<Timeinterval> intervals = getIntervals(start, stop, grain, 1);
 
-		for (Pair p : intervals) {
+		for (Timeinterval p : intervals) {
 			System.out.println(p.start + ", " + p.stop);
 		}
 
@@ -232,7 +216,7 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 	 * Calculates the 10 % voltage distortion
 	 * @param intervals, containerId
 	 */
-	public void calculateVoltageDistortion(List<Pair> intervals, List<String> voltageDev) {
+	public void calculateVoltageDistortion(List<Timeinterval> intervals, List<String> voltageDev) {
 
 		logger.debug("calculateVoltageDistortion");
 		double nominalVolt = 230;
@@ -240,7 +224,7 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 		double distortion;
 		
 		for (String containerId : voltageDev) {
-			for (Pair p : intervals) {
+			for (Timeinterval p : intervals) {
 				long from = p.start;
 				long to = p.stop;
 
@@ -273,7 +257,7 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 	 * Calculates the 10 % frequency distortion
 	 * @param intervals, containerId
 	 */
-	public void calculateFrequencyDistortion(List<Pair> intervals, List<String> voltageDev){
+	public void calculateFrequencyDistortion(List<Timeinterval> intervals, List<String> voltageDev){
 		
 		logger.debug("calculateVoltageDistortion");
 		double nominalHz = 50;
@@ -281,7 +265,7 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 		double distortion;
 		
 		for (String containerId : voltageDev) {
-			for (Pair p : intervals) {
+			for (Timeinterval p : intervals) {
 				long from = p.start;
 				long to = p.stop;
 
@@ -313,7 +297,7 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 	 * Calculates the maximum energy consumption for last 24-hours.
 	 * @param intervals, containerId
 	 */
-	public void getDailyPeakEnergyConsumption(List<Pair> intervals, List<String> apprentEnergy) {
+	public void getDailyPeakEnergyConsumption(List<Timeinterval> intervals, List<String> apprentEnergy) {
 
 		logger.debug("DailyPeakEnergyConsumption");
 		List<Double> hourlyAverage = new ArrayList<Double>();
@@ -323,7 +307,7 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 
 		try {
 			for (String containerId : apprentEnergy) {
-				for (Pair p : intervals) {
+				for (Timeinterval p : intervals) {
 
 					long from = p.start;
 					long to = p.stop;
@@ -372,7 +356,7 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 	 * Calculates the minimum energy consumption for last 24-hours.
 	 * @param intervals, containerId
 	 */
-	public void getDailyMinEnergyConsumption(List<Pair> intervals, List<String> apprentEnergy) {
+	public void getDailyMinEnergyConsumption(List<Timeinterval> intervals, List<String> apprentEnergy) {
 		
 		logger.debug("DailyPeakEnergyConsumption");
 		List<Double> hourlyAverage = new ArrayList<Double>();
@@ -382,7 +366,7 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 
 		try {
 			for (String containerId : apprentEnergy) {
-				for (Pair p : intervals) {
+				for (Timeinterval p : intervals) {
 
 					long from = p.start;
 					long to = p.stop;
@@ -496,9 +480,9 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 		cal_start.set(Calendar.SECOND, 0);
 		long stop = cal_start.getTimeInMillis();
 		
-		List<Pair> intervals = getIntervals(start, stop, 1, 1);
+		List<Timeinterval> intervals = getIntervals(start, stop, 1, 1);
 		
-		for (Pair p : intervals) {
+		for (Timeinterval p : intervals) {
 
 			long from = p.start;
 			long to = p.stop;
@@ -539,9 +523,9 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 		cal_start.set(Calendar.SECOND, 0);
 		long stop = cal_start.getTimeInMillis();
 		
-		List<Pair> intervals = getIntervals(start, stop, 1, 1);
+		List<Timeinterval> intervals = getIntervals(start, stop, 1, 1);
 		
-		for (Pair p : intervals) {
+		for (Timeinterval p : intervals) {
 
 			long from = p.start;
 			long to = p.stop;
@@ -568,9 +552,9 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 	public String getKpiDuration(long start, long stop) {
 		String insertQuery = null;
 		
-		List<Pair> intervals = getIntervals(start , stop, 1, 1);
+		List<Timeinterval> intervals = getIntervals(start , stop, 1, 1);
 		
-		for (Pair p : intervals) {
+		for (Timeinterval p : intervals) {
 
 			long from = p.start;
 			long to = p.stop;
@@ -598,6 +582,14 @@ public class StabilizeImpl implements HealthCheck, StabilizeInterface, IContaine
 				+ "," + kpitype + "," + value + "," + timestamp + ");";
 
 		InterfaceFactory.getInformationBroker().executeQuery(insertQuery);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getValues(String wrapperid, String type,
+			int grain, int amount, long start, long stop) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

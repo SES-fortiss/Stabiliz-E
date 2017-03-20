@@ -21,8 +21,8 @@
 	<wrapperid>dimis001.wrapper</wrapperid>
 	<wrappername>smg-client-dimis-001</wrappername>
 	<protocol>http</protocol>
-	<host>dummy</host>
-	<port>dummy</port>
+	<host>192.168.21.218</host>
+	<port>10001</port>
 	<path></path>
 	<username></username>
 	<password></password>
