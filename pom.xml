@@ -353,27 +353,6 @@
 		<module>analyzer.api</module>
 		<module>analyzer.impl</module>
 		<module>analyzer.test</module>
-
-		<!-- <module>epcclient.api</module> 
-		<module>epcclient.impl</module> 
-		<module>epcclient.test</module> -->
-		
-		<!-- <module>prophet.api</module>
-		<module>prophet.impl</module>
-		<module>prophet.test</module> -->
-
-
-		<!-- <module>meterpush.api</module> 
-		<module>meterpush.impl</module> 
-		<module>meterpush.test</module> -->
-
-		<!--<module>trader.api</module> 
-		<module>trader.impl</module> 
-		<module>trader.test</module> 
-		
-		<module>optimizer.api</module> 			
-		<module>optimizer.impl</module> 
-		<module>optimizer.test</module> -->
 		
 		<module>gamification.api</module>
 		<module>gamification.impl</module>
@@ -386,11 +365,6 @@
 		<module>webrest.api</module>
 		<module>webrest.impl</module>
 		<module>webrest.test</module>
-
-		<module>websocket.api</module>
-		<module>websocket.impl</module>
-		<module>websocket.test</module>
-
 	</modules>
 
 
