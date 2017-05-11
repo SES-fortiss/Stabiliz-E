@@ -19,7 +19,7 @@ import java.util.concurrent.TimeoutException;
 import org.fortiss.smg.usermanager.api.KeyManagerInterface;
 import org.fortiss.smg.webrest.impl.BundleFactory;
 import org.fortiss.smg.webrest.impl.Constants;
-import org.junit.Assert;
+
 
 public class AuthenticationHelper {
 
@@ -269,7 +269,7 @@ public class AuthenticationHelper {
 		} catch (TimeoutException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Assert.fail("Failed to calculate Signature");
+			//Assert.fail("Failed to calculate Signature");
 		}
 		return "";
     }

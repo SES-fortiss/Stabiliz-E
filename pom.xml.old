@@ -265,7 +265,6 @@
 
 	<modules>
 		<module>remoteframework.lib</module>
-
 		<module>remoteframework.test</module>
 
 		<module>config.lib</module>
@@ -283,6 +282,10 @@
 		<module>informationbroker.api</module>
 		<module>informationbroker.impl</module>
 		<module>informationbroker.test</module>
+
+		<!--<module>recommender.api</module> 
+		<module>recommender.impl</module> 
+		<module>recommender.test</module> -->
 			
 		<module>containermanager.api</module>
 		<module>containermanager.impl</module>
@@ -301,11 +304,47 @@
 		<module>actuatorclient.dummy.impl</module>
 		<module>actuatorclient.dummy.test</module> 
 
+		<!-- <module>actuatorclient.arduino.impl</module> 
+		<module>actuatorclient.arduino.test</module> -->
+
+		<!-- <module>actuatorclient.sunny.impl</module>
+		<module>actuatorclient.sunny.test</module> -->
+
+		<!-- <module>actuatorclient.solarlog.impl</module>
+		<module>actuatorclient.solarlog.test</module> -->
+
+		<!-- <module>actuatorclient.siemens.impl</module>
+		<module>actuatorclient.siemens.test</module> -->
+
+		<!-- <module>actuatorclient.labcon.impl</module>
+		<module>actuatorclient.labcon.test</module> -->
+
+		<!-- <module>actuatorclient.ipswitch.impl</module>
+		<module>actuatorclient.ipswitch.test</module> -->
+
+		<!-- <module>actuatorclient.hexabus.impl</module>
+		<module>actuatorclient.hexabus.test</module> -->
+
+		<!-- <module>actuatorclient.froeschl.impl</module>
+		<module>actuatorclient.froeschl.test</module> -->
+
+		<!-- <module>actuatorclient.enocean.impl</module>
+		<module>actuatorclient.enocean.test</module> -->
+
 		<module>actuatorclient.dimis.impl</module>
 		<module>actuatorclient.dimis.test</module>
 
+		<!-- <module>actuatorclient.sonnenbattery.impl</module>
+		<module>actuatorclient.sonnenbattery.test</module> -->
+
 		<module>actuatorclient.apros.impl</module>
 		<module>actuatorclient.apros.test</module>
+
+                <!-- <module>actuatorclient.raspberrygpio.impl</module>
+                <module>actuatorclient.raspberrygpio.test</module> -->
+
+		<!-- <module>actuatorclient.smartphoneserver.impl</module>
+		<module>actuatorclient.smartphoneserver.test</module> -->
 
 		<module>rulesystem.api</module>
 		<module>rulesystem.impl</module>

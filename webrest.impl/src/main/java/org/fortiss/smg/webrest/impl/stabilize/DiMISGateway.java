@@ -96,30 +96,22 @@ public class DiMISGateway {
 
 		HashMap<String, Pair<Double, Long>> result;
 	
-		try {
-			result = stabilize.getLatest();
+		result = new HashMap<String, Pair<Double, Long>>();
+				//stabilize.getLatest();
 
-			if (!result.isEmpty()) {
-				StringBuilder sb = new StringBuilder();
+		if (!result.isEmpty()) {
+			StringBuilder sb = new StringBuilder();
 
-				for (Entry<String, Pair<Double, Long>> r : result.entrySet()) {
-					
-					String containerId = r.getKey();
-					Double value = r.getValue().getFirst();
-					long timestamp = r.getValue().getSecond();
-					sb.append("[" + containerId + "," + value + "," + timestamp + "]");
-					sb.append("\n");
-				}
-
-				return sb.toString();
+			for (Entry<String, Pair<Double, Long>> r : result.entrySet()) {
+				
+				String containerId = r.getKey();
+				Double value = r.getValue().getFirst();
+				long timestamp = r.getValue().getSecond();
+				sb.append("[" + containerId + "," + value + "," + timestamp + "]");
+				sb.append("\n");
 			}
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (TimeoutException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return sb.toString();
 		}
 		
 		// TODO
