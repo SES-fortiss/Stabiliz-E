@@ -1,15 +1,11 @@
 package org.fortiss.smg.containermanager.impl;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,8 +17,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
 
-//import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math3.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
+//import org.apache.commons.math3.util.Pair;
 import org.fortiss.smg.actuatormaster.api.ActuatorMasterQueueNames;
 import org.fortiss.smg.actuatormaster.api.IActuatorListener;
 import org.fortiss.smg.actuatormaster.api.IActuatorMaster;
@@ -67,7 +63,6 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 	private static ExecutorService executors;
 	private Map<String, String> containerMappingHRName;
 	private Map<DeviceId, String> containerMappingDeviceId;
-
 
 	public static final String DB_NAME_CONTAINERS = "ContainerManager_Containers";
 	public static final String DB_NAME_CONTAINEREDGES = "ContainerManager_ContainerEdges";
@@ -313,6 +308,12 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 
 				// set value to device
 				device.setValue(ev.getValue());
+				if (ev.getTimeStamp() > 0) {
+					device.setTimestamp(ev.getTimeStamp());
+				}
+				else {
+					device.setTimestamp(new Date().getTime());
+				}
 
 				// get all relevant parents which should update the value -
 				// according to their depth
@@ -329,9 +330,9 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 				this.getUnSortedParentContainers(device.getContainerId(), listParentsUnsorted);
 
 				// for each depth starting with the deepest
-				
+
 				Long currenttime = new Date().getTime();
-				
+
 				for (Entry<Integer, List<String>> entry : listParentsUnsorted.entrySet()) {
 
 					// Not sure if reverse order of unsorted array reflects the
@@ -347,8 +348,7 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 						logger.debug("update statistics for Parent " + parentContainer.getHrName() + " " + parent + "\n"
 								+ "update statistics for Parent " + ev.getValue() + " " + device.getDeviceType());
 
-						parentContainer.onUpdateStatistics(device.getDeviceType(),currenttime ,this);
-
+						parentContainer.onUpdateStatistics(device.getDeviceType(), currenttime, this);
 
 					}
 					for (String id : entry.getValue()) {
@@ -371,6 +371,7 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 	public void onComplexDoubleEventReceived(HashMap<String, DoubleEvent> events, String client)
 			throws TimeoutException {
 		logger.info("Received ComplexEvent from " + client);
+		Long currenttime = new Date().getTime();
 		for (Map.Entry<String, DoubleEvent> entry : events.entrySet()) {
 			logger.info("key: " + entry.getKey() + " value: " + entry.getValue());
 		}
@@ -379,9 +380,88 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 			DoubleEvent ev = entry.getValue();
 			logger.info("Received DoubleEvent in a Complex event: containerId: " + containerId + " value: "
 					+ entry.getValue().getValue());
-			onDoubleEventReceived(ev, containerId, client);
+			onDoubleEventReceivedwithTime(ev, containerId, client, currenttime);
 		}
+		
+		
+		
 	}
+	
+	
+	public void onDoubleEventReceivedwithTime(DoubleEvent ev, String containerId, String client, Long timestamp) throws TimeoutException {
+
+		logger.info("Event from ContainerID: " + containerId + " Value: " + ev.getValue());
+
+		if (containerId != null) {
+
+			DeviceContainer device = getDeviceContainer(containerId);
+
+			if (device != null) {
+				logger.info("received Event from: " + device.getHrName() + " (" + ev.getValue() + " "
+						+ device.getDeviceType().getType() + ")");
+
+				// set value to device
+				device.setValue(ev.getValue());
+				if (ev.getTimeStamp() > 0) {
+					device.setTimestamp(ev.getTimeStamp());
+				}
+				else {
+					device.setTimestamp(timestamp);
+				}
+
+				// get all relevant parents which should update the value -
+				// according to their depth
+				// Not sure if reverse order of unsorted array reflects the tree
+				// ordering ! hence we go for unsortedParents
+				// TreeMap<Integer, Set<String>> listParents = new
+				// TreeMap<Integer, Set<String>>();
+				// Collections.reverseOrder());
+				// this.getSortedParentContainers(device.getContainerId(),
+				// listParents);
+
+				TreeMap<Integer, List<String>> listParentsUnsorted = new TreeMap<Integer, List<String>>();
+
+				this.getUnSortedParentContainers(device.getContainerId(), listParentsUnsorted);
+
+				// for each depth starting with the deepest
+
+				Long currenttime = new Date().getTime();
+
+				for (Entry<Integer, List<String>> entry : listParentsUnsorted.entrySet()) {
+
+					// Not sure if reverse order of unsorted array reflects the
+					// tree ordering ! hence we go for unsortedParents
+					// List<String> parentContainerIDList = new
+					// ArrayList<String>(entry.getValue());
+					// Collections.reverse(parentContainerIDList);
+
+					for (String parent : entry.getValue()) {
+
+						Container parentContainer = this.getContainer(parent);
+
+						logger.debug("update statistics for Parent " + parentContainer.getHrName() + " " + parent + "\n"
+								+ "update statistics for Parent " + ev.getValue() + " " + device.getDeviceType());
+
+						parentContainer.onUpdateStatistics(device.getDeviceType(), currenttime, this);
+
+					}
+					for (String id : entry.getValue()) {
+						logger.info("Container " + cons.get(id).getHrName() + " Value "
+								+ cons.get(id).getSum(device.getDeviceType()));
+
+					}
+				}
+
+			} else {
+				logger.debug("Device not found (ContainerID:" + containerId);
+			}
+		} else {
+			logger.debug("ContainerID was null: " + containerId);
+		}
+
+	}
+	
+	
 
 	private void getSortedParentContainers(String containerId, TreeMap<Integer, Set<String>> sortedParents) {
 
@@ -500,12 +580,22 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 							IContainerManagerListener.class, queue, TIMEOUTLONG);
 					try {
 						IContainerManagerListener proxy = listenerProxy.init();
-						proxy.currentlyRegisteredContainers(containerMappingDeviceId, containerMappingHRName);
+
+						HashMap<Pair<String, String>, String> containerMappingDeviceIdWithStrings = new HashMap<Pair<String, String>, String>();
+						for (Entry<DeviceId, String> entry : containerMappingDeviceId.entrySet()) {
+							Pair<String, String> pair = Pair.of(entry.getKey().getDevId(),
+									entry.getKey().getWrapperId());
+							containerMappingDeviceIdWithStrings.put(pair, entry.getValue());
+						}
+
+						proxy.currentlyRegisteredContainers(containerMappingDeviceIdWithStrings,
+								containerMappingHRName);
+
 					} catch (IOException e) {
 						logger.info("No conection to " + queue + ".");
 
 					} catch (TimeoutException e) {
-						logger.info("Timeout for " + queue + ".");
+						logger.info("Timeout for " + queue + ".", e);
 					}
 					try {
 						listenerProxy.destroy();
@@ -691,7 +781,7 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 
 	@Override
 	public void sendCommandToContainer(DoubleCommand command, String containerId, SIDeviceType type) {
-		
+
 		// first get all children
 		Container con;
 		for (Entry<Container, EdgeType> entry : this.getChildrenWithEdgeTypes(containerId)) {
@@ -702,8 +792,7 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 					deviceContainer.setValue(command.getValue());
 					sendCommand(command, deviceContainer.getContainerId());
 				}
-			}
-			else if (con instanceof Container) {
+			} else if (con instanceof Container) {
 				sendCommandToContainer(command, con.getContainerId(), type);
 			}
 
@@ -767,13 +856,12 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 		if (requestedContainer != null) {
 			roomcontainers.add(requestedContainer);
 		} else {
-
-			return new Pair<List<Container>, List<ContainerEdge>>(roomcontainers, roomedges);
+			return Pair.of(roomcontainers, roomedges);
 		}
 
 		// if edges are empty there is no tree information (yet)
 		if (this.edges.isEmpty()) {
-			return new Pair<List<Container>, List<ContainerEdge>>(roomcontainers, roomedges);
+			return Pair.of(roomcontainers, roomedges);
 		}
 
 		if (this.edges.get(containerId) != null) {
@@ -789,7 +877,7 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 			}
 		}
 
-		return new Pair<List<Container>, List<ContainerEdge>>(roomcontainers, roomedges);
+		return Pair.of(roomcontainers, roomedges);
 	}
 
 	public ArrayList<String> getRegisteredDevices() {
@@ -814,12 +902,10 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 		if (reasonableforSum.contains(type)) {
 			// TODO it is the other way round
 			return this.getSumByType(ContainerId, type);
-		}
-		else if (reasonableforBool.contains(type)) {
+		} else if (reasonableforBool.contains(type)) {
 			return this.getMaxByType(ContainerId, type);
 		}
-		
-		
+
 		else {
 			return this.getMeanByType(ContainerId, type);
 		}
@@ -886,30 +972,38 @@ public class ContainerManagerImpl implements ContainerManagerInterface, IActuato
 		return results;
 	}
 
-	
-
-//	@Override
-//	public HashMap<SIDeviceType, Pair<Double, Long>> getDetailedValues(String ContainerId) throws TimeoutException {
+	@Override
+	public HashMap<String, HashMap<Double, Long>> getDetailedValues(String ContainerId) throws TimeoutException {
 		// TODO Auto-generated method stub
-//		HashMap<SIDeviceType, Pair<Double, Long>>  detailedValues = new HashMap<SIDeviceType, Pair<Double, Long>>();
-		
-//		Map<SIDeviceType, SummaryStatistics> summaryStatistics = this.cons.get(ContainerId).getSummaryStatisticsMap();
-//		
-//		for (SIDeviceType type : summaryStatistics.keySet()) {
-//			Double value = this.getCurrentValueByType(ContainerId, type);
-//		
-//			Pair<Double, Long> entry =  new Pair<Double, Long>(value, this.cons.get(ContainerId).getTimeStamp(type));
-//		
-//			detailedValues.put(type, entry);
-//					
-//		}
-		
-		
-//		return detailedValues;
-//	}
+		HashMap<String, HashMap<Double, Long>> detailedValues = new HashMap<String, HashMap<Double, Long>>();
 
-	
-	
+		if (cons.containsKey(ContainerId)) {
+		Container con = this.cons.get(ContainerId);
+		
+		if (!(con instanceof DeviceContainer)) {
+			ArrayList<SIDeviceType> deviceTypes = this.cons.get(ContainerId).getDeviceTypes();
+
+			for (SIDeviceType type : deviceTypes) {
+		
+				HashMap<Double, Long> entry = new HashMap<Double, Long>();
+				entry.put(this.getCurrentValueByType(ContainerId, type), this.cons.get(ContainerId).getTimeStamp(type));
+
+				detailedValues.put(type.toString(), entry);
+
+			}
+		}
+		else {
+			DeviceContainer devCon = (DeviceContainer) con;
+			HashMap<Double,Long> valuetime = new HashMap<Double, Long>();
+			valuetime.put(devCon.getValue(),devCon.getTimestamp());
+			
+			detailedValues.put(devCon.getDeviceType().toString(), valuetime);
+		}
+		}
+
+		return detailedValues;
+	}
+
 	private boolean typeIsReasonable(String method, SIDeviceType type) {
 		/*
 		 * Min and Max are always reasonable

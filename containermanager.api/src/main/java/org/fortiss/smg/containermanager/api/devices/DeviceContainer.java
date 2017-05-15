@@ -1,7 +1,11 @@
 package org.fortiss.smg.containermanager.api.devices;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
+
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class DeviceContainer extends Container {
@@ -175,6 +179,10 @@ public class DeviceContainer extends Container {
 	public double getValue() {
 		return spec.value;
 	}
+	
+	public long getTimestamp() {
+		return spec.timestamp;
+	}
 
 	/**
 	 * checks whether a device has a binary input (e.g. a switch)
@@ -294,6 +302,10 @@ public class DeviceContainer extends Container {
 		//System.out.println(summaryStatistics + " " + spec);
 		summaryStatistics.put(spec.deviceType, new SummaryStatistics());
 		summaryStatistics.get(spec.deviceType).addValue(value);
+	}
+	
+	public void setTimestamp(long timestamp) {
+		spec.timestamp = timestamp;
 	}
 
 	public void setCommandRange(double rangeMin, double rangeMax, double rangeStep) {

@@ -44,19 +44,24 @@ public class TestMain {
 	@Test
 	public void doSomething() {
 
-		// important: timestamp must be set including miliseconds
-		Calendar from = Calendar.getInstance(TimeZone.getTimeZone("GMT+1"));
-		from.set(2017, Calendar.FEBRUARY, 7, 14, 00, 00);
-		new Date().getTime();
-		Calendar to = Calendar.getInstance(TimeZone.getTimeZone("GMT+1"));
-		to.set(2017, Calendar.FEBRUARY, 7, 16, 30, 00);
-
-		System.out.println("from and to " + from.getTime() + " " + to.getTime());
-		// call url
-		System.out.println("Now: " + new Date().getTime());
-		makeCall("stabilize/getlatest/dummy.DAPO_ENRG_l1_Volt/" + new Date().getTime());
-		//makeCall("stabilize/getAverage/dummy.DAPO_ENRG_l1_Volt/" + from.getTimeInMillis() + "/" + to.getTimeInMillis());
-		//makeCall("stabilize/getAverage/123456789.DAPO_ENRG_l1_Volt/" + 1486474661147L + "/" + 1486474665866L);
+		makeCall("stabilize/doSomething");
+		
+		long stop = new Date().getTime();
+		long start = stop - 3600000;
+		makeCall("stabilize/106/second/" + start + "/" + stop);
+//		// important: timestamp must be set including miliseconds
+//		Calendar from = Calendar.getInstance(TimeZone.getTimeZone("GMT+1"));
+//		from.set(2017, Calendar.FEBRUARY, 7, 14, 00, 00);
+//		new Date().getTime();
+//		Calendar to = Calendar.getInstance(TimeZone.getTimeZone("GMT+1"));
+//		to.set(2017, Calendar.FEBRUARY, 7, 16, 30, 00);
+//
+//		System.out.println("from and to " + from.getTime() + " " + to.getTime());
+//		// call url
+//		System.out.println("Now: " + new Date().getTime());
+//		makeCall("stabilize/getlatest/dummy.DAPO_ENRG_l1_Volt/" + new Date().getTime());
+//		//makeCall("stabilize/getAverage/dummy.DAPO_ENRG_l1_Volt/" + from.getTimeInMillis() + "/" + to.getTimeInMillis());
+//		//makeCall("stabilize/getAverage/123456789.DAPO_ENRG_l1_Volt/" + 1486474661147L + "/" + 1486474665866L);
 	}
 
 	public void makeCall(String s) {

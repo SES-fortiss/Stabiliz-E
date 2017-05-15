@@ -21,8 +21,7 @@ public class Container {
 	String hrName;
 	ContainerType containerType = ContainerType.UNKNOWN;
 	ContainerFunction containerFunction = ContainerFunction.NONE;
-	
-	//private Map<SIDeviceType, Long> timestampForDeviceType;
+	Map<SIDeviceType, Long> timestampForDeviceType = new HashMap<SIDeviceType, Long>();
 
 	/*
 	 * will be forwarded to parent (does not include virtually added containers
@@ -57,6 +56,7 @@ public class Container {
 		map.put("containerfunction", this.containerFunction);
 		map.put("containertype", this.containerType);
 		map.put("virtualcontainer", this.virtualContainer);
+		//map.put("timestampfordevicetype", this.timestampForDeviceType);
 		logger.info(map.toString());
 		return map;
 	}
@@ -69,6 +69,7 @@ public class Container {
 		this.containerType = containerType;
 		this.containerFunction = containerFunction;
 		this.virtualContainer = virtualContainer;
+		this.timestampForDeviceType = new HashMap<SIDeviceType, Long>();
 	}
 
 	public String getContainerId() {
@@ -127,12 +128,13 @@ public class Container {
 		this.virtualContainer = virtualContainer;
 	}
 
-	/*
-	 * Provide statistical information about the container
-	 */
-//	public Map<SIDeviceType, SummaryStatistics> getSummaryStatisticsMap() {
-//		return summaryStatistics;
-//	}
+	public ArrayList<SIDeviceType> getDeviceTypes() {
+		ArrayList<SIDeviceType> deviceTypes = new ArrayList<SIDeviceType>();
+		for (SIDeviceType type : summaryStatistics.keySet()) {
+			deviceTypes.add(type);
+		}
+		return deviceTypes;
+	}
 	
 	
 	public SummaryStatistics getSummaryStatistics(SIDeviceType type) {
@@ -158,14 +160,14 @@ public class Container {
 		return getSummaryStatistics(type).getMin();
 	}
 	
-//	public long getTimeStamp(SIDeviceType type) {
-//		return timestampForDeviceType.get(type);
-//	}
+	public long getTimeStamp(SIDeviceType type) {
+		return timestampForDeviceType.get(type);
+	}
 	
 
 	public void onUpdateStatistics(SIDeviceType type, Long timestamp, ContainerManagerInterface cint) throws TimeoutException {
 		
-		//timestampForDeviceType.put(type, timestamp);
+		timestampForDeviceType.put(type, timestamp);
 		
 		// our current values
 		String previous = null;

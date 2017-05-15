@@ -3,11 +3,11 @@ package org.fortiss.smg.containermanager.api;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeoutException;
 
-import org.apache.commons.math3.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
+//import org.apache.commons.math3.util.Pair;
 import org.fortiss.smg.ambulance.api.HealthCheck;
 import org.fortiss.smg.containermanager.api.devices.Container;
 import org.fortiss.smg.containermanager.api.devices.ContainerEdge;
@@ -37,14 +37,14 @@ public interface ContainerManagerInterface extends HealthCheck {
 	 * @param id
 	 * @return List<Entry<Container,EdgeType>> or an empty List
 	 */
-	public List<Entry<Container, EdgeType>> getChildrenWithEdgeTypes(String id) throws TimeoutException;;
+	public List<Entry<Container, EdgeType>> getChildrenWithEdgeTypes(String id) throws TimeoutException;
 	
 	/**
 	 * This method returns a DeviceContainer for a given DeviceId Object or null
 	 * @param id
 	 * @return DeviceContainer or null
 	 */
-	public DeviceContainer getDeviceContainer(String containerId) throws TimeoutException;;
+	public DeviceContainer getDeviceContainer(String containerId) throws TimeoutException;
 	
 	/**
 	 * Returns a list of Device Spec Data (by a Google Device Code)
@@ -321,7 +321,7 @@ public interface ContainerManagerInterface extends HealthCheck {
 	 * @return HashMap with all SIDeviceTypes [key] incl. Entry(Value, TimeStamp) [value] for a given ContainerID 
 	 * @throws TimeoutException
 	 */
-//	public HashMap<SIDeviceType, Pair<Double, Long>> getDetailedValues(String ContainerId) throws TimeoutException;
+	public HashMap<String, HashMap<Double, Long>> getDetailedValues(String ContainerId) throws TimeoutException;
 	
 	//public boolean updateContainer(String containerIDold, String containerIDnew, String HRName, ContainerType containerType, ContainerFunction containerFunction, int virtual) throws TimeoutException;
 	//public boolean updateContainer(String containerID, String HRName, ContainerType containerType, ContainerFunction containerFunction, int virtual) throws TimeoutException;

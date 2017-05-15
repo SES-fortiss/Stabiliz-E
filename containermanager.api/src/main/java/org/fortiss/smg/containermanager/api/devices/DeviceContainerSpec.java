@@ -27,7 +27,7 @@ public class DeviceContainerSpec {
 	DeviceId deviceId;
 	SIDeviceType deviceType;
 
-	// has a value (only in case of stran ge toggle false)
+	// has a value (only in case of strange toggle false)
 	boolean hasValue = true;
 	// hierarchy for devices given by the wrapper
 	String internDeviceParent;
@@ -44,6 +44,8 @@ public class DeviceContainerSpec {
 	double rangeStep = -1;
 
 	double value = -1;
+	
+	long timestamp = -1l;
 
 	/*
 	 * returns a Hashmap with all properties
@@ -67,6 +69,7 @@ public class DeviceContainerSpec {
 		deviceSpec.put("commandmaxrange", commandMaxRange);
 		deviceSpec.put("commandrangestep", commandRangeStep);
 		deviceSpec.put("commandrangesteptype", commandRangeStepType);
+		//deviceSpec.put("valuetime", valueTime);
 		return deviceSpec;
 	}
 
@@ -150,6 +153,7 @@ public class DeviceContainerSpec {
 					.fromString(deviceSpec.get("commandrangesteptype")
 							.toString());
 		}
+
 	}
 
 	public boolean isAcceptsCommands() {
@@ -292,9 +296,17 @@ public class DeviceContainerSpec {
 	public double getValue() {
 		return value;
 	}
-
+	
+	public long getTimestamp() {
+		return timestamp;
+	}
+	
 	public void setValue(double value) {
 		this.value = value;
+	}
+	
+	public void setTimestamp(long time) {
+		this.timestamp = time;
 	}
 
 	public void setRange(int min, int max) {
